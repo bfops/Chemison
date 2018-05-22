@@ -2,6 +2,11 @@
 
 public class Leaf : Transmutable
 {
+  public override Element GetElement()
+  {
+    return Element.Leaf;
+  }
+
   private void Start()
   {
     GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Green");

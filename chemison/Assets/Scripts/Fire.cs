@@ -2,6 +2,11 @@
 
 public class Fire : Transmutable
 {
+  public override Element GetElement()
+  {
+    return Element.Fire;
+  }
+
   private void Start()
   {
     GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Orange");

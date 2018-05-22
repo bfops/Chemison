@@ -4,6 +4,11 @@ public class Dirt : Transmutable
 {
   float? timeElapsed = 0;
 
+  public override Element GetElement()
+  {
+    return Element.Dirt;
+  }
+
   private void Start()
   {
     GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Brown");
@@ -13,7 +18,7 @@ public class Dirt : Transmutable
   {
     if (timeElapsed >= 2)
     {
-      Spawn<Wood>(transform.position + new Vector3(0, 1, 0), transform.rotation)
+      Spawn<Wood>(point + new VoxelStorage.Vector(0, 1, 0))
         .InitTrunk(height: 0);
       timeElapsed = null;
     }

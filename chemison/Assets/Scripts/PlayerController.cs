@@ -32,11 +32,17 @@ public class PlayerController : MonoBehaviour
     float y = Input.GetAxisRaw("Vertical");
     float x = Input.GetAxisRaw("Horizontal");
 
-    var d = transform.TransformVector(new Vector3(x, 0, y));
-    d.y = 0;
-    if (d.sqrMagnitude > 0)
+    var moveInput = transform.TransformVector(new Vector3(x, 0, y));
+    moveInput.y = 0;
+    if (moveInput.sqrMagnitude > 0)
     {
-      transform.position += moveSpeed * Time.deltaTime * d.normalized;
+      var box = GetComponent<BoxCollider>();
+      var movement = moveSpeed * Time.deltaTime * moveInput.normalized;
+      var center = transform.TransformPoint(box.center);
+      if (Physics.OverlapBox(center + movement, box.size/2, transform.rotation).Length <= 2)
+      {
+        transform.position += movement;
+      }
     }
   }
 
@@ -102,11 +108,11 @@ public class PlayerController : MonoBehaviour
       {
         if (selected == Element.Fire)
         {
-          Transmutable.Spawn<Fire>(hit.Value.point, transform.rotation);
+          Transmutable.Spawn<Fire>(VoxelStorage.Vector.OfVector3(hit.Value.point));
         }
         else if (selected == Element.Water)
         {
-          Transmutable.Spawn<Water>(hit.Value.point, transform.rotation);
+          Transmutable.Spawn<Water>(VoxelStorage.Vector.OfVector3(hit.Value.point));
         }
       }
     }

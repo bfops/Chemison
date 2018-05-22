@@ -285,7 +285,10 @@
     <Compile Include="Assets\Scripts\Leaf.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Rock.cs" />
+    <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\Transmutable.cs" />
+    <Compile Include="Assets\Scripts\TransmutableUpdater.cs" />
+    <Compile Include="Assets\Scripts\VoxelStorage.cs" />
     <Compile Include="Assets\Scripts\Water.cs" />
     <Compile Include="Assets\Scripts\Wood.cs" />
   </ItemGroup>

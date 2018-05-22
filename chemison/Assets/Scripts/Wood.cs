@@ -5,7 +5,7 @@ public class Wood : Transmutable
   class Branch
   {
     public int depth;
-    public Vector3 direction;
+    public VoxelStorage.Vector direction;
   }
 
   int height;
@@ -16,13 +16,18 @@ public class Wood : Transmutable
   bool hasSpawnedBranches = false;
   bool hasSpawnedLeaves = false;
 
+  public override Element GetElement()
+  {
+    return Element.Wood;
+  }
+
   public void InitTrunk(int height)
   {
     this.height = height;
     branchSettings = null;
   }
 
-  public void InitBranch(int height, int branchDepth, Vector3 direction)
+  public void InitBranch(int height, int branchDepth, VoxelStorage.Vector direction)
   {
     this.height = height;
     branchSettings = new Branch { depth = branchDepth, direction = direction };
@@ -42,26 +47,22 @@ public class Wood : Transmutable
     return 0;
   }
 
-  void SpawnBranch(Vector3 direction)
+  void SpawnBranch(VoxelStorage.Vector direction)
   {
-    Quaternion rot = transform.rotation;
-    rot.SetLookRotation(transform.rotation * direction);
-    Spawn<Wood>(transform.position + transform.rotation * direction, rot)
+    Spawn<Wood>(point + direction)
       .InitBranch(height: height, branchDepth: BranchDepth() + 1, direction: direction);
   }
 
-  void SpawnLeaves(Vector3 direction)
+  void SpawnLeaves(VoxelStorage.Vector direction)
   {
-    Quaternion rot = transform.rotation;
-    rot.SetLookRotation(transform.rotation * direction);
-    Spawn<Leaf>(transform.position + transform.rotation * direction, rot);
+    Spawn<Leaf>(point + direction);
   }
 
   private void Update()
   {
     if (branchSettings == null && !hasSpawnedChild && timeElapsed >= 2 * (1 << height))
     {
-      Spawn<Wood>(transform.position + new Vector3(0, 1, 0), transform.rotation)
+      Spawn<Wood>(point + new VoxelStorage.Vector(0, 1, 0))
         .InitTrunk(height + 1);
       hasSpawnedChild = true;
     }
@@ -72,15 +73,15 @@ public class Wood : Transmutable
       {
         for (int i = 0; i < 4; ++i)
         {
-          SpawnBranch(new Vector3(((i & 1) == 0 ? 1 : -1), 0, ((i & 2) == 0 ? 1 : -1)));
+          SpawnBranch(new VoxelStorage.Vector(((i & 1) == 0 ? 1 : -1), 0, ((i & 2) == 0 ? 1 : -1)));
         }
         for (int i = 0; i < 2; ++i)
         {
-          SpawnBranch(new Vector3(((i & 1) == 0 ? 1 : -1), 0, 0));
+          SpawnBranch(new VoxelStorage.Vector(((i & 1) == 0 ? 1 : -1), 0, 0));
         }
         for (int i = 0; i < 2; ++i)
         {
-          SpawnBranch(new Vector3(0, 0, ((i & 1) == 0 ? 1 : -1)));
+          SpawnBranch(new VoxelStorage.Vector(0, 0, ((i & 1) == 0 ? 1 : -1)));
         }
       }
       else
@@ -94,11 +95,11 @@ public class Wood : Transmutable
     {
       for (int i = 0; i < 2; ++i)
       {
-        SpawnLeaves(new Vector3(((i & 1) == 0 ? 1 : -1), 0, 0));
+        SpawnLeaves(new VoxelStorage.Vector(((i & 1) == 0 ? 1 : -1), 0, 0));
       }
       for (int i = 0; i < 2; ++i)
       {
-        SpawnLeaves(new Vector3(0, ((i & 1) == 0 ? 1 : -1), 0));
+        SpawnLeaves(new VoxelStorage.Vector(0, ((i & 1) == 0 ? 1 : -1), 0));
       }
       hasSpawnedLeaves = true;
     }

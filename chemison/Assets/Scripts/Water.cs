@@ -2,6 +2,11 @@
 
 public class Water : Transmutable
 {
+  public override Element GetElement()
+  {
+    return Element.Water;
+  }
+
   private void Start()
   {
     GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Blue");
