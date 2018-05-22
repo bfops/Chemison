@@ -1,4 +1,5 @@
 /chemison/.vs/
-/chemison/Library
-/chemison/Temp
-/chemison/UnityPackageManager
+/chemison/Library/
+/chemison/Temp/
+/chemison/UnityPackageManager/
+/chemison/Build/
